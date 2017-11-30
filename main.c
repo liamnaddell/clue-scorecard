@@ -17,11 +17,23 @@ int main(int argc, char **argv) {
 	printw(splash);
 	refresh();
 
-  int c;
+  int word[100];
+  int c, i;
   while (c != '\n') {
-    printw("%c", c);
+    if (c == '\t')
+      printw("<TAB>");
+    else;
+      printw("%c", c);
+    word[i] = c;
+    i++;
     c = getch();
   }
+
+  printw("\n");
+  for (int x=1; i>x; x++)
+    addch(word[x]);
+
+  getch();
 
 	endwin();
 	return 0;
