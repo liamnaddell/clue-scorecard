@@ -1,8 +1,8 @@
-make:
+all:
 	gcc -o ./cluesc main.c -lncurses
 
-run: make
+run:
 	./cluesc
 
 clean:
-	rm ./cluesc
+	-rm ./cluesc
