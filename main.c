@@ -39,7 +39,6 @@ int app_close(sqlite3 *db, int rc) {
 //}
 
 int main() {
-	puts("HI");
 	sqlite3 *db;
 	int error = 0;
 	sqlite3_stmt *res;
