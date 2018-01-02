@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <sqlite3.h>
 #include <string.h>
+#include <ncurses.h>
 #define players 4
 #define sentance 50
 struct hand {
@@ -10,6 +11,8 @@ struct hand {
 	char 	card3[sentance];
 	char 	card4[sentance];
 };
+
+WINDOW *create_newwin(int height, int width, int starty, int startx);
 
 int app_close(sqlite3 *db, int rc) {
 	sqlite3_close(db);
@@ -63,10 +66,50 @@ int printHands(struct hand *hand1) {
 }
 
 int main() {
-	sqlite3 *db;
-	int ret = sqlite3_open("tmpdb_cluesc",&db);
-	struct hand hand1[players];
-	GetHands(db,hand1);
-	printHands(hand1);
-	return app_close(db,0);
+	//sqlite3 *db;
+	//int ret = sqlite3_open("tmpdb_cluesc",&db);
+	//struct hand hand1[players];
+	//GetHands(db,hand1);
+	//printHands(hand1);
+
+
+	initscr();			/* Start curses mode 		  */
+	cbreak();
+	noecho();
+	keypad(stdscr, TRUE);
+	refresh();
+
+	WINDOW *my_win;
+	int ch;
+	my_win = create_newwin(3,COLS,LINES-3,0);
+	mvaddch(LINES-2,2,'>');
+	while((ch = getch()) != KEY_F(1)) {
+		switch(ch) {
+			case (127):
+				addch('b');
+			case (KEY_BACKSPACE):
+				addch('c');
+			default:
+				addch(ch);
+		}
+	}
+
+	
+
+	endwin();			/* End curses mode		  */
+
+	//return app_close(db,0);
+	return 0;
+}
+
+WINDOW *create_newwin(int height, int width, int starty, int startx) {      
+	WINDOW *local_win;
+
+	local_win = newwin(height, width, starty, startx);
+	box(local_win, 0 , 0);          /* 0, 0 gives default characters
+				* for the vertical and horizontal
+				 * lines                        */
+	wrefresh(local_win);            /* Show that box                */
+
+	return local_win;
 }
