@@ -75,9 +75,9 @@ int main() {
 
 	initscr();			/* Start curses mode 		  */
 	cbreak();
-	noecho();
 	keypad(stdscr, TRUE);
 	refresh();
+        noecho();
 
 	WINDOW *my_win;
 	int ch;
@@ -86,9 +86,13 @@ int main() {
 	while((ch = getch()) != KEY_F(1)) {
 		switch(ch) {
 			case (127):
-				addch('b');
+                            delch();
+                            delch();
+                            delch();
 			case (KEY_BACKSPACE):
-				addch('c');
+                            delch();
+                            delch();
+                            delch();
 			default:
 				addch(ch);
 		}
