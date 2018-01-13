@@ -76,44 +76,26 @@ int main() {
 	initscr();			/* Start curses mode 		  */
 	cbreak();
 	keypad(stdscr, TRUE);
-	refresh();
         noecho();
 
 	WINDOW *my_win;
 	int ch;
 	my_win = create_newwin(3,COLS,LINES-3,0);
-	mvaddch(LINES-2,2,'>');
+	//mvwaddch(my_win,2,0,'>');
+        wmove(my_win,2,0);
 	while((ch = getch()) != KEY_F(1)) {
-		/*switch(ch) {
-			case (ch == 127):
-                            delch();
-                            delch();
-                            delch();
-                            wrefresh(my_win);
-			case KEY_BACKSPACE:
-                            delch();
-                            delch();
-                            delch();
-                            wrefresh(my_win);
-			default:
-                            printw("%d",ch);
-                            addch(ch);
-                            wrefresh(my_win);
-		}
-                */
-                if (ch == 127) {
-                    delch();
-                    printw("HI %d",ch);
-                    wrefresh(my_win);
-                } else {
-                    printw("hi %d",ch);
-                    wrefresh(my_win);
-		}
-
-
-	}
-
-	
+            if (ch == 127 ) {
+                int y;
+                int x;
+                getyx(my_win,y,x);
+                wmove(my_win,y,x-1);
+                wdelch(my_win);
+                wrefresh(my_win);
+            } else {
+                waddch(my_win,ch);
+                wrefresh(my_win);
+            }
+        }
 
 	endwin();			/* End curses mode		  */
 
@@ -125,10 +107,6 @@ WINDOW *create_newwin(int height, int width, int starty, int startx) {
 	WINDOW *local_win;
 
 	local_win = newwin(height, width, starty, startx);
-	box(local_win, 0 , 0);          /* 0, 0 gives default characters
-				* for the vertical and horizontal
-				 * lines                        */
-	wrefresh(local_win);            /* Show that box                */
 
 	return local_win;
 }
