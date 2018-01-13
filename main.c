@@ -84,18 +84,33 @@ int main() {
 	my_win = create_newwin(3,COLS,LINES-3,0);
 	mvaddch(LINES-2,2,'>');
 	while((ch = getch()) != KEY_F(1)) {
-		switch(ch) {
-			case (127):
+		/*switch(ch) {
+			case (ch == 127):
                             delch();
                             delch();
                             delch();
-			case (KEY_BACKSPACE):
+                            wrefresh(my_win);
+			case KEY_BACKSPACE:
                             delch();
                             delch();
                             delch();
+                            wrefresh(my_win);
 			default:
-				addch(ch);
+                            printw("%d",ch);
+                            addch(ch);
+                            wrefresh(my_win);
 		}
+                */
+                if (ch == 127) {
+                    delch();
+                    printw("HI %d",ch);
+                    wrefresh(my_win);
+                } else {
+                    printw("hi %d",ch);
+                    wrefresh(my_win);
+		}
+
+
 	}
 
 	
