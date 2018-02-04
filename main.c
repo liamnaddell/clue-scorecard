@@ -80,14 +80,14 @@ int main() {
 	cbreak();
 	keypad(stdscr, TRUE);
         noecho();
-
 	WINDOW *my_win;
 	int ch;
 	my_win = create_newwin(3,COLS,LINES-3,0);
 	//mvwaddch(my_win,2,0,'>');
         wmove(my_win,2,0);
 	while((ch = getch()) != KEY_F(2)) {
-            if (ch == 127 ) {
+		printw("%d",ch);
+            if (ch == 127 || ch == 0x157 || ch == 10) {
                 int8_t y;
                 int8_t x;
                 getyx(my_win,y,x);
