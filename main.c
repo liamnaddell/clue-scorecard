@@ -2,6 +2,7 @@
 #include <sqlite3.h>
 #include <string.h>
 #include <ncurses.h>
+#include <stdint.h>
 #define players 4
 #define sentance 50
 struct hand {
@@ -33,16 +34,17 @@ int GetHands(sqlite3 *db, struct hand *hand1) {
 	}
 	int i = 0;
 	while (sqlite3_step(res) == SQLITE_ROW) {
+	//removed unsigned symbol lol
 		const unsigned char *name = sqlite3_column_text(res,0);	
 		const unsigned char *card1 = sqlite3_column_text(res,1);	
 		const unsigned char *card2 = sqlite3_column_text(res,2);	
 		const unsigned char *card3 = sqlite3_column_text(res,3);	
 		const unsigned char *card4 = sqlite3_column_text(res,4);	
-		strncpy(hand1[i].playerName,name,sentance);
-		strncpy(hand1[i].card1,card1,sentance);
-		strncpy(hand1[i].card2,card2,sentance);
-		strncpy(hand1[i].card3,card3,sentance);
-		strncpy(hand1[i].card4,card4,sentance);
+		strncpy(hand1[i].playerName,(const char *)name,sentance);
+		strncpy(hand1[i].card1,(const char *)card1,sentance);
+		strncpy(hand1[i].card2,(const char *)card2,sentance);
+		strncpy(hand1[i].card3,(const char *)card3,sentance);
+		strncpy(hand1[i].card4,(const char *)card4,sentance);
 		i=i+1;
 		if (i >= players) {
 			break;
@@ -63,6 +65,7 @@ int printHands(struct hand *hand1) {
 			break;
 		}
 	}
+	return 0;
 }
 
 int main() {
@@ -85,8 +88,8 @@ int main() {
         wmove(my_win,2,0);
 	while((ch = getch()) != KEY_F(2)) {
             if (ch == 127 ) {
-                int y;
-                int x;
+                int8_t y;
+                int8_t x;
                 getyx(my_win,y,x);
                 wmove(my_win,y,x-1);
                 wdelch(my_win);
