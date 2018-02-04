@@ -83,7 +83,7 @@ int main() {
 	my_win = create_newwin(3,COLS,LINES-3,0);
 	//mvwaddch(my_win,2,0,'>');
         wmove(my_win,2,0);
-	while((ch = getch()) != KEY_F(1)) {
+	while((ch = getch()) != KEY_F(2)) {
             if (ch == 127 ) {
                 int y;
                 int x;
