@@ -54,7 +54,7 @@ int GetHands(sqlite3 *db, struct hand *hand1) {
 }
 
 
-int printHands(struct hand *hand1) {
+void printHands(struct hand *hand1) {
 	int i = 0;
 	for (;;) {
 		printf("%s|%s|%s|%s|%s|\n",hand1[i].playerName,hand1[i].card1,hand1[i].card2,hand1[i].card3,hand1[i].card4);
@@ -83,15 +83,32 @@ int main() {
 	my_win = create_newwin(3,COLS,LINES-3,0);
 	//mvwaddch(my_win,2,0,'>');
         wmove(my_win,2,0);
+	char buffer[100];
+	int i=0;
 	while((ch = getch()) != KEY_F(1)) {
-            if (ch == 127 ) {
+	    buffer[i] = ch;
+	    buffer[i+1] = '\0';
+	    i=i+1;
+            if (ch == KEY_BACKSPACE) {
                 int y;
                 int x;
                 getyx(my_win,y,x);
                 wmove(my_win,y,x-1);
                 wdelch(my_win);
                 wrefresh(my_win);
-            } else {
+		buffer[i-1] = '\0';
+            } else if (ch == 10) {;
+		printw(buffer);
+		buffer[0] = '\0';
+		for (; i > 0; i=i-1) {
+			int yo;
+			int xo;
+			getyx(my_win,yo,xo);
+			wmove(my_win,yo,xo-1);
+			wdelch(my_win);
+			wrefresh(my_win);
+		}
+	    } else {
                 waddch(my_win,ch);
                 wrefresh(my_win);
             }

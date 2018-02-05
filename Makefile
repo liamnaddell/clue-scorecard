@@ -1,5 +1,5 @@
 make:	
-	gcc -g -o cluesc main.c -lncurses -lsqlite3
+	clang -Wall -g -o cluesc main.c -lncurses -lsqlite3
 
 run: make
 	./cluesc
